@@ -26,13 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".java.MainActivity">
-        </activity>
 
-        <activity android:name=".kotlin.MainActivity">
-        </activity>
 
-        <activity android:name=".EntryChoiceActivity">
+        <activity android:name=".Translate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
