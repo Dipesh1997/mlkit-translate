@@ -1,6 +1,7 @@
 package com.google.firebase.samples.apps.mlkit.translate
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,12 @@ class TextRecognitionAdapter(private val context: Context, private val textRecog
         holder.text2.text = textRecognitionModels[position].text
         holder.itemView.setOnClickListener { v: View? ->
             Toast.makeText(context,holder.text2.text,Toast.LENGTH_SHORT).show()
+
+            context.startActivity(Intent(context, Expand::class.java).putExtra("RECTEXT",holder.text2.text.toString()))
         }
     }
+
+
 
     override fun getItemCount() = textRecognitionModels.size
 
