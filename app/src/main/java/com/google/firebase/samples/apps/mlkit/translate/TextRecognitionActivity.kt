@@ -97,7 +97,7 @@ class TextRecognitionActivity : AppCompatActivity() {
         val rectPaint = Paint()
         rectPaint.color = Color.RED
         rectPaint.style = Paint.Style.STROKE
-        rectPaint.strokeWidth = 4F
+        rectPaint.strokeWidth = 2F
         val textPaint = Paint()
         textPaint.color = Color.RED
         textPaint.textSize = 40F
@@ -106,8 +106,8 @@ class TextRecognitionActivity : AppCompatActivity() {
         for (block in result.textBlocks) {
             for (line in block.lines) {
 
-                //canvas.drawRect(line.boundingBox, rectPaint)
-                //canvas.drawText(index.toString(), line.cornerPoints!![2].x.toFloat(), line.cornerPoints!![2].y.toFloat(), textPaint)
+                canvas.drawRect(line.boundingBox!!, rectPaint)
+                canvas.drawText(index.toString(), line.cornerPoints!![2].x.toFloat(), line.cornerPoints!![2].y.toFloat(), textPaint)
                 textRecognitionModels.add(TextRecognitionModel(index++, line.text))
 
             }
