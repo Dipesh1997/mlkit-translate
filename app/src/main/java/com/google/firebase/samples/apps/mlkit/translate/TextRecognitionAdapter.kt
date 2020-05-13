@@ -1,5 +1,6 @@
 package com.google.firebase.samples.apps.mlkit.translate
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.custom_edittext.view.*
 
 class TextRecognitionAdapter(private val context: Context, private val textRecognitionModels: List<TextRecognitionModel>) : RecyclerView.Adapter<TextRecognitionAdapter.TextRecognitionViewHolder>() {
 
@@ -22,6 +24,23 @@ class TextRecognitionAdapter(private val context: Context, private val textRecog
             Toast.makeText(context,holder.text2.text,Toast.LENGTH_SHORT).show()
 
             context.startActivity(Intent(context, Expand::class.java).putExtra("RECTEXT",holder.text2.text.toString()))
+        }
+
+        holder.itemView.setOnLongClickListener{
+            val mDialogView = LayoutInflater.from(context).inflate(R.layout.custom_edittext, null)
+            val mBuilder = AlertDialog.Builder(context).setView(mDialogView).setTitle("Change Value")
+            val  mAlertDialog = mBuilder.show()
+            mDialogView.dialogChangeEt.setText(holder.text2.text)
+            mDialogView.dialogChangeBtn.setOnClickListener {
+                mAlertDialog.dismiss()
+                val changedValue = mDialogView.dialogChangeEt.text.toString()
+                Toast.makeText(context,changedValue,Toast.LENGTH_SHORT).show()
+                holder.text2.text = changedValue
+            }
+            mDialogView.dialogCancelBtn.setOnClickListener {
+                mAlertDialog.dismiss()
+            }
+            true
         }
     }
 

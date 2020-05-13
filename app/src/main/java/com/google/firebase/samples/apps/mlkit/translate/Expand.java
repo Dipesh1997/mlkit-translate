@@ -44,7 +44,7 @@ public class Expand extends AppCompatActivity {
         for(int i = 0; i < arraySize; i++) {
             final String singleElement = list[i];
             String partToClick = singleElement;
-            wordMeaningList.add(new WordMeaning(partToClick, "5", "200","Touch to get Meaning"));
+            wordMeaningList.add(new WordMeaning(partToClick, "On", "Hindi Word","Touch to get Meaning"));
 
         }
 

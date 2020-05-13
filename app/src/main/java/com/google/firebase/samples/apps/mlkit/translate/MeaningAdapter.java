@@ -73,19 +73,56 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
             titleTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    toast();
                     WordMeaning wordMeaning = wordMeaningList.get(getAdapterPosition());
                     wordMeaning.setExpanded(!wordMeaning.isExpanded());
                     notifyItemChanged(getAdapterPosition());
-                    toast();
+
                 }
-
-
-
-
                 private void toast() {
-
+                    String word = titleTextView.getText().toString();
+                    String noSpaceStr = word.replaceAll("\\s", "");
+                    Toast.makeText(itemView.getContext(),noSpaceStr,Toast.LENGTH_SHORT).show();
+                    DictionaryRequest dictionaryRequest = new DictionaryRequest(itemView.getContext(), plotTextView);
+                    url = dictionaryEntries();
+                    dictionaryRequest.execute(url);
+                    translate();
                 }
+
+                private String dictionaryEntries() {
+                    final String language = "en-gb";
+                    final String word = titleTextView.getText().toString();
+                    final String noSpaceStr = word.replaceAll("\\s", "");
+                    final String fields = "definitions";
+                    final String strictMatch = "false";
+                    final String word_id = noSpaceStr.toLowerCase();
+                    return "https://od-api.oxforddictionaries.com:443/api/v2/entries/" + language + "/" + word_id + "?" + "fields=" + fields + "&strictMatch=" + strictMatch;
+                }
+                private void translate() {
+                    sourceText = titleTextView.getText().toString();
+                    FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
+                            //from language
+                            .setSourceLanguage(FirebaseTranslateLanguage.EN)
+                            // to language
+                            .setTargetLanguage(FirebaseTranslateLanguage.HI)
+                            .build();
+
+                    final FirebaseTranslator translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);
+                    FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().build();
+                    translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            translator.translate(sourceText).addOnSuccessListener(new OnSuccessListener<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    yearTextView.setText(s);
+                                }
+                            });
+                        }
+                    });
+                }
+
+
             });
             plotTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
