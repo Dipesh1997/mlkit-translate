@@ -1,5 +1,6 @@
 package com.google.firebase.samples.apps.mlkit.translate;
 
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,13 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMeaningVH> {
 
     private static final String TAG = "MeaningAdapter";
     List<WordMeaning> wordMeaningList;
+
 
     public MeaningAdapter(List<WordMeaning> wordMeaningList) {
         this.wordMeaningList = wordMeaningList;
@@ -59,6 +62,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
         TextView titleTextView, yearTextView, ratingTextView, plotTextView;
         String url;
         private String sourceText;
+        TextToSpeech t1,t2;
 
         public WordMeaningVH(@NonNull final View itemView) {
             super(itemView);
@@ -68,38 +72,31 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
             ratingTextView = itemView.findViewById(R.id.ratingTextView);
             plotTextView = itemView.findViewById(R.id.plotTextView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-
-
-            titleTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    toast();
-                    WordMeaning wordMeaning = wordMeaningList.get(getAdapterPosition());
-                    wordMeaning.setExpanded(!wordMeaning.isExpanded());
-                    notifyItemChanged(getAdapterPosition());
-
+            t1=new TextToSpeech(itemView.getContext(), status -> {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.US);
                 }
-                private void toast() {
-                    String word = titleTextView.getText().toString();
-                    String noSpaceStr = word.replaceAll("\\s", "");
-                    Toast.makeText(itemView.getContext(),noSpaceStr,Toast.LENGTH_SHORT).show();
-                    DictionaryRequest dictionaryRequest = new DictionaryRequest(itemView.getContext(), plotTextView);
-                    url = dictionaryEntries();
-                    dictionaryRequest.execute(url);
+            });
+            t2=new TextToSpeech(itemView.getContext(), status -> {
+                if(status != TextToSpeech.ERROR) {
+                    t2.setLanguage(Locale.US);
+                }
+            });
+
+            titleTextView.setOnClickListener(view -> {
+                WordMeaning wordMeaning = wordMeaningList.get(getAdapterPosition());
+                wordMeaning.setExpanded(!wordMeaning.isExpanded());
+                notifyItemChanged(getAdapterPosition());
+
+            });
+
+            yearTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     translate();
                 }
-
-                private String dictionaryEntries() {
-                    final String language = "en-gb";
-                    final String word = titleTextView.getText().toString();
-                    final String noSpaceStr = word.replaceAll("\\s", "");
-                    final String fields = "definitions";
-                    final String strictMatch = "false";
-                    final String word_id = noSpaceStr.toLowerCase();
-                    return "https://od-api.oxforddictionaries.com:443/api/v2/entries/" + language + "/" + word_id + "?" + "fields=" + fields + "&strictMatch=" + strictMatch;
-                }
                 private void translate() {
-                    sourceText = titleTextView.getText().toString();
+                    sourceText = plotTextView.getText().toString();
                     FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                             //from language
                             .setSourceLanguage(FirebaseTranslateLanguage.EN)
@@ -115,7 +112,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
                             translator.translate(sourceText).addOnSuccessListener(new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String s) {
-                                    yearTextView.setText(s);
+                                    plotTextView.setText(s);
                                 }
                             });
                         }
@@ -124,6 +121,14 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
 
 
             });
+
+            ratingTextView.setOnClickListener(v -> {
+                String toSpeak = titleTextView.getText().toString();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                String toSpeakMeaning = plotTextView.getText().toString();
+                t2.speak(toSpeakMeaning, TextToSpeech.QUEUE_FLUSH, null);
+            });
+
             plotTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
