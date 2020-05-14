@@ -1,33 +1,27 @@
 package com.google.firebase.samples.apps.mlkit.translate;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 public class DictionaryRequest extends AsyncTask<String, Integer, String> {
 
-    Context context;
-    TextView showDef;
-    View.OnClickListener onClickListener;
+    @SuppressLint("StaticFieldLeak")
+    private TextView showDef;
 
-    DictionaryRequest(Context context, TextView textView){
-        this.context = context;
+    DictionaryRequest(TextView textView){
         this.showDef = textView;
-    }
-
-    public DictionaryRequest(View.OnClickListener onClickListener, TextView plotTextView) {
-        this.onClickListener = onClickListener;
-        this.showDef=plotTextView;
     }
 
     @Override
@@ -47,9 +41,9 @@ public class DictionaryRequest extends AsyncTask<String, Integer, String> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             StringBuilder stringBuilder = new StringBuilder();
 
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line + "\n");
+                stringBuilder.append(line).append("\n");
             }
 
             return stringBuilder.toString();

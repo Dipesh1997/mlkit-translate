@@ -14,7 +14,6 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import com.google.firebase.samples.apps.mlkit.translate.MeaningAdapter.WordMeaningVH
-import java.util.*
 
 class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
     RecyclerView.Adapter<WordMeaningVH>() {
@@ -102,7 +101,7 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
                     val word = wordTextView.text.toString()
                     val noSpaceStr = word.replace("\\s".toRegex(), "")
                     Toast.makeText(itemView.context, noSpaceStr, Toast.LENGTH_SHORT).show()
-                    val dictionaryRequest = DictionaryRequest(itemView.context, meaningTextView)
+                    val dictionaryRequest = DictionaryRequest(meaningTextView)
                     url = dictionaryEntries()
                     dictionaryRequest.execute(url)
                     translate()
