@@ -1,8 +1,6 @@
 package com.google.firebase.samples.apps.mlkit.translate;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,13 +36,10 @@ public class Expand extends AppCompatActivity {
         String value = getIntent().getStringExtra("RECTEXT");
         assert value != null;
         String[] list =value.split(" ");
-        final int arraySize = list.length;
         wordMeaningList = new ArrayList<>();
 
-        for(int i = 0; i < arraySize; i++) {
-            final String singleElement = list[i];
-            String partToClick = singleElement;
-            wordMeaningList.add(new WordMeaning(partToClick, "On", "Hindi Word","Touch to get Meaning"));
+        for (final String singleElement : list) {
+            wordMeaningList.add(new WordMeaning(singleElement, "On", "Hindi Word", "Touch to get Meaning"));
 
         }
 
