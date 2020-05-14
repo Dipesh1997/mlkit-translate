@@ -14,7 +14,9 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import com.google.firebase.samples.apps.mlkit.translate.MeaningAdapter.WordMeaningVH
+import java.util.*
 
+@Suppress("DEPRECATION")
 class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
     RecyclerView.Adapter<WordMeaningVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordMeaningVH {
@@ -38,30 +40,23 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
     }
 
     inner class WordMeaningVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var expandableLayout: ConstraintLayout
-        var wordTextView: TextView
-        var hindiTextView: TextView
-        var speekTextView: TextView
-        var meaningTextView: TextView
+        var expandableLayout: ConstraintLayout = itemView.findViewById(R.id.expandableLayout)
+        var wordTextView: TextView = itemView.findViewById(R.id.wordTextView)
+        var hindiTextView: TextView = itemView.findViewById(R.id.hindiTextView)
+        var speekTextView: TextView = itemView.findViewById(R.id.speekTextView)
+        var meaningTextView: TextView = itemView.findViewById(R.id.meaningTextView)
         var url: String? = null
         private var sourceText: String? = null
-        var t1: TextToSpeech
-        var t2: TextToSpeech
+        private var t1: TextToSpeech = TextToSpeech(itemView.context, OnInitListener {
+            //if (status != TextToSpeech.ERROR) t1.language = Locale.US
+        })
+        private var t2: TextToSpeech = TextToSpeech(itemView.context, OnInitListener {
+            //if (status != TextToSpeech.ERROR) t2.language = Locale.US
+        })
 
 
         init {
-            wordTextView = itemView.findViewById(R.id.wordTextView)
-            hindiTextView = itemView.findViewById(R.id.hindiTextView)
-            speekTextView = itemView.findViewById(R.id.speekTextView)
-            meaningTextView = itemView.findViewById(R.id.meaningTextView)
-            expandableLayout = itemView.findViewById(R.id.expandableLayout)
-            t1 = TextToSpeech(itemView.context, OnInitListener { status: Int ->
-                //if (status != TextToSpeech.ERROR) t1.language = Locale.US
-            })
-            t2 = TextToSpeech(itemView.context, OnInitListener { status: Int ->
-                //if (status != TextToSpeech.ERROR) t2.language = Locale.US
-            })
-            wordTextView.setOnClickListener { view: View? ->
+            wordTextView.setOnClickListener {
                 val wordMeaning = wordMeaningList[adapterPosition]
                 wordMeaning.isExpanded = !wordMeaning.isExpanded
                 notifyItemChanged(adapterPosition)
@@ -86,7 +81,7 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
                         }
                 }
             })
-            speekTextView.setOnClickListener { v: View? ->
+            speekTextView.setOnClickListener {
                 val toSpeak = wordTextView.text.toString()
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null)
                 val toSpeakMeaning = meaningTextView.text.toString()
@@ -113,8 +108,8 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
                     val noSpaceStr = word.replace("\\s".toRegex(), "")
                     val fields = "definitions"
                     val strictMatch = "false"
-                    val word_id = noSpaceStr.toLowerCase()
-                    return "https://od-api.oxforddictionaries.com:443/api/v2/entries/$language/$word_id?fields=$fields&strictMatch=$strictMatch"
+                    val wordId = noSpaceStr.toLowerCase(Locale.ROOT)
+                    return "https://od-api.oxforddictionaries.com:443/api/v2/entries/$language/$wordId?fields=$fields&strictMatch=$strictMatch"
                 }
 
                 private fun translate() {
@@ -135,8 +130,6 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
         }
     }
 
-    companion object {
-        private const val TAG = "MeaningAdapter"
-    }
+    companion object
 
 }

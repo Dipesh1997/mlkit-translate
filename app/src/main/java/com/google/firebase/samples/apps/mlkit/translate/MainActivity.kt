@@ -54,11 +54,6 @@ class MainActivity : AppCompatActivity() {
         // Get the image URI from intent
         val imageUri = intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as Uri
         // When image URI is not null
-        if (imageUri != null) {
-            // Update UI to reflect image being shared
-            imageView!!.setImageURI(imageUri)
-        } else {
-            Toast.makeText(this, "Error occured, URI is invalid", Toast.LENGTH_LONG).show()
-        }
+        imageView!!.setImageURI(imageUri)
     }
 }

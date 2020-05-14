@@ -7,7 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
-import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
-import com.google.firebase.samples.apps.mlkit.translate.R
 import com.theartofdev.edmodo.cropper.CropImage
 
 class TextRecognitionActivity : AppCompatActivity() {
@@ -49,7 +48,8 @@ class TextRecognitionActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 val imageUri = result.uri
-                analyzeImage(MediaStore.Images.Media.getBitmap(contentResolver, imageUri))
+                @Suppress("DEPRECATION")
+                this.analyzeImage(getBitmap(this.contentResolver, imageUri))
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Toast.makeText(this, "There was some error : ${result.error.message}", Toast.LENGTH_SHORT).show()
             }
