@@ -2,50 +2,50 @@ package com.google.firebase.samples.apps.mlkit.translate;
 
 public class WordMeaning {
 
-    private String title;
-    private String rating;
-    private String year;
-    private String plot;
+    private String word;
+    private String speak;
+    private String hindi;
+    private String wordmeaning;
     private boolean expanded;
 
-    public WordMeaning(String title, String rating, String year, String plot) {
-        this.title = title;
-        this.rating = rating;
-        this.year = year;
-        this.plot = plot;
+    public WordMeaning(String word, String speak, String hindi, String wordmeaning) {
+        this.word = word;
+        this.speak = speak;
+        this.hindi = hindi;
+        this.wordmeaning = wordmeaning;
         this.expanded = false;
     }
 
-    public String getTitle() {
-        return title;
+    public String getWord() {
+        return word;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setWord(String word) {
+        this.word = word;
     }
 
-    public String getRating() {
-        return rating;
+    public String getSpeak() {
+        return speak;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setSpeak(String speak) {
+        this.speak = speak;
     }
 
-    public String getYear() {
-        return year;
+    public String getHindi() {
+        return hindi;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setHindi(String hindi) {
+        this.hindi = hindi;
     }
 
-    public String getPlot() {
-        return plot;
+    public String getWordmeaning() {
+        return wordmeaning;
     }
 
-    public void setPlot(String plot) {
-        this.plot = plot;
+    public void setWordmeaning(String wordmeaning) {
+        this.wordmeaning = wordmeaning;
     }
 
     public boolean isExpanded() {
@@ -59,10 +59,10 @@ public class WordMeaning {
     @Override
     public String toString() {
         return "WordMeaning{" +
-                "title='" + title + '\'' +
-                ", rating='" + rating + '\'' +
-                ", year='" + year + '\'' +
-                ", plot='" + plot + '\'' +
+                "word='" + word + '\'' +
+                ", speak='" + speak + '\'' +
+                ", hindi='" + hindi + '\'' +
+                ", wordmeaning='" + wordmeaning + '\'' +
                 ", expanded=" + expanded +
                 '}';
     }

@@ -42,10 +42,10 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
     public void onBindViewHolder(@NonNull WordMeaningVH holder, int position) {
 
         WordMeaning wordMeaning = wordMeaningList.get(position);
-        holder.titleTextView.setText(wordMeaning.getTitle());
-        holder.yearTextView.setText(wordMeaning.getYear());
-        holder.ratingTextView.setText(wordMeaning.getRating());
-        holder.plotTextView.setText(wordMeaning.getPlot());
+        holder.wordTextView.setText(wordMeaning.getWord());
+        holder.hindiTextView.setText(wordMeaning.getHindi());
+        holder.speekTextView.setText(wordMeaning.getSpeak());
+        holder.meaningTextView.setText(wordMeaning.getWordmeaning());
 
         boolean isExpanded = wordMeaningList.get(position).isExpanded();
         holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -59,7 +59,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
 
     class WordMeaningVH extends RecyclerView.ViewHolder {
         ConstraintLayout expandableLayout;
-        TextView titleTextView, yearTextView, ratingTextView, plotTextView;
+        TextView wordTextView, hindiTextView, speekTextView, meaningTextView;
         String url;
         private String sourceText;
         TextToSpeech t1,t2;
@@ -67,10 +67,10 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
         public WordMeaningVH(@NonNull final View itemView) {
             super(itemView);
 
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            yearTextView = itemView.findViewById(R.id.yearTextView);
-            ratingTextView = itemView.findViewById(R.id.ratingTextView);
-            plotTextView = itemView.findViewById(R.id.plotTextView);
+            wordTextView = itemView.findViewById(R.id.wordTextView);
+            hindiTextView = itemView.findViewById(R.id.hindiTextView);
+            speekTextView = itemView.findViewById(R.id.speekTextView);
+            meaningTextView = itemView.findViewById(R.id.meaningTextView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
             t1=new TextToSpeech(itemView.getContext(), status -> {
                 if(status != TextToSpeech.ERROR) {
@@ -83,20 +83,20 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
                 }
             });
 
-            titleTextView.setOnClickListener(view -> {
+            wordTextView.setOnClickListener(view -> {
                 WordMeaning wordMeaning = wordMeaningList.get(getAdapterPosition());
                 wordMeaning.setExpanded(!wordMeaning.isExpanded());
                 notifyItemChanged(getAdapterPosition());
 
             });
 
-            yearTextView.setOnClickListener(new View.OnClickListener() {
+            hindiTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     translate();
                 }
                 private void translate() {
-                    sourceText = plotTextView.getText().toString();
+                    sourceText = meaningTextView.getText().toString();
                     FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                             //from language
                             .setSourceLanguage(FirebaseTranslateLanguage.EN)
@@ -112,7 +112,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
                             translator.translate(sourceText).addOnSuccessListener(new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String s) {
-                                    plotTextView.setText(s);
+                                    meaningTextView.setText(s);
                                 }
                             });
                         }
@@ -122,24 +122,24 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
 
             });
 
-            ratingTextView.setOnClickListener(v -> {
-                String toSpeak = titleTextView.getText().toString();
+            speekTextView.setOnClickListener(v -> {
+                String toSpeak = wordTextView.getText().toString();
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                String toSpeakMeaning = plotTextView.getText().toString();
+                String toSpeakMeaning = meaningTextView.getText().toString();
                 t2.speak(toSpeakMeaning, TextToSpeech.QUEUE_FLUSH, null);
             });
 
-            plotTextView.setOnClickListener(new View.OnClickListener() {
+            meaningTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     toast();
                 }
 
                 private void toast() {
-                    String word = titleTextView.getText().toString();
+                    String word = wordTextView.getText().toString();
                     String noSpaceStr = word.replaceAll("\\s", "");
                     Toast.makeText(itemView.getContext(),noSpaceStr,Toast.LENGTH_SHORT).show();
-                    DictionaryRequest dictionaryRequest = new DictionaryRequest(itemView.getContext(), plotTextView);
+                    DictionaryRequest dictionaryRequest = new DictionaryRequest(itemView.getContext(), meaningTextView);
                     url = dictionaryEntries();
                     dictionaryRequest.execute(url);
                     translate();
@@ -147,7 +147,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
 
                 private String dictionaryEntries() {
                     final String language = "en-gb";
-                    final String word = titleTextView.getText().toString();
+                    final String word = wordTextView.getText().toString();
                     final String noSpaceStr = word.replaceAll("\\s", "");
                     final String fields = "definitions";
                     final String strictMatch = "false";
@@ -155,7 +155,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
                     return "https://od-api.oxforddictionaries.com:443/api/v2/entries/" + language + "/" + word_id + "?" + "fields=" + fields + "&strictMatch=" + strictMatch;
                 }
                 private void translate() {
-                    sourceText = titleTextView.getText().toString();
+                    sourceText = wordTextView.getText().toString();
                     FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                             //from language
                             .setSourceLanguage(FirebaseTranslateLanguage.EN)
@@ -171,7 +171,7 @@ public class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.WordMean
                             translator.translate(sourceText).addOnSuccessListener(new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String s) {
-                                    yearTextView.setText(s);
+                                    hindiTextView.setText(s);
                                 }
                             });
                         }
