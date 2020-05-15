@@ -22,4 +22,13 @@
     <string name="delete_model">Delete Model</string>
     <string name="download_model">Download Model</string>
     <string name="unknown_error">Unknown error occurred.</string>
+    <string name="click_me">Click Me</string>
+    <string name="word">Word</string>
+    <string name="textview">TextView</string>
+    <string name="hindi_word">Hindi Word:</string>
+    <string name="speak">Speak</string>
+    <string name="meaning">Meaning</string>
+    <string name="change_value">Change Value</string>
+    <string name="change">Change</string>
+    <string name="cancel">Cancel</string>
 </resources>
