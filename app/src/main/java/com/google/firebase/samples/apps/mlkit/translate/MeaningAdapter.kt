@@ -56,11 +56,14 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
 
 
         init {
-            wordTextView.setOnClickListener {
-                val wordMeaning = wordMeaningList[adapterPosition]
-                wordMeaning.isExpanded = !wordMeaning.isExpanded
-                notifyItemChanged(adapterPosition)
-            }
+            wordTextView.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    val wordMeaning = wordMeaningList[adapterPosition]
+                    wordMeaning.isExpanded = !wordMeaning.isExpanded
+                    notifyItemChanged(adapterPosition)
+                    translate()
+                }
+            })
             hindiTextView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View) {
                     translate()
@@ -127,6 +130,22 @@ class MeaningAdapter(var wordMeaningList: List<WordMeaning>) :
                         }
                 }
             })
+        }
+
+
+        private fun translate() {
+            sourceText = wordTextView.text.toString()
+            val options = FirebaseTranslatorOptions.Builder() //from language
+                .setSourceLanguage(FirebaseTranslateLanguage.EN) // to language
+                .setTargetLanguage(FirebaseTranslateLanguage.HI)
+                .build()
+            val translator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
+            val conditions = FirebaseModelDownloadConditions.Builder().build()
+            translator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener {
+                    translator.translate(sourceText!!)
+                        .addOnSuccessListener { s -> hindiTextView.text = s }
+                }
         }
     }
 
