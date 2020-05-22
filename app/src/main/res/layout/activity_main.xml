@@ -10,20 +10,10 @@
     tools:context=".MainActivity"
     android:background="@color/background">
 
-    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:neomorph_view_type="rectangular"
-        app:neomorph_shadow_type="outer"
-        app:neomorph_elevation="10dp"
-        android:id="@+id/neo"
-        app:neomorph_corner_radius="10dp"
-        app:neomorph_background_color="@color/background"
-        app:neomorph_shadow_color="@color/shadow_color"
-        app:neomorph_highlight_color="@color/highlight">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:id="@+id/scrollview"
             android:fillViewport="true">
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/tagsView"
@@ -32,7 +22,8 @@
             app:flexWrap="wrap"
             app:alignItems="stretch"
             app:alignContent="stretch"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            />
         </ScrollView>
         <EditText
             android:layout_width="match_parent"
@@ -44,13 +35,12 @@
             android:autofillHints=""
             tools:ignore="LabelFor,TextFields" />
 
-    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
 
     <ImageView
         android:id="@+id/sentImage"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/neo"
+        android:layout_below="@+id/scrollview"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/image_from_out_of_app">
     </ImageView>
