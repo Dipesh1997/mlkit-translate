@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.custom_edittext.view.*
+import kotlinx.android.synthetic.main.item_text_recognition.view.*
 
 class TextRecognitionAdapter(private val context: Context, private val textRecognitionModels: List<TextRecognitionModel>) : RecyclerView.Adapter<TextRecognitionAdapter.TextRecognitionViewHolder>() {
 
@@ -22,7 +23,7 @@ class TextRecognitionAdapter(private val context: Context, private val textRecog
     override fun onBindViewHolder(holder: TextRecognitionViewHolder, position: Int) {
         holder.text1.text = textRecognitionModels[position].id.toString()
         holder.text2.text = textRecognitionModels[position].text
-        holder.itemView.setOnClickListener {
+        holder.itemView.item_text_recognition_text_view2.setOnClickListener {
             Toast.makeText(context, holder.text2.text, Toast.LENGTH_SHORT).show()
 
             context.startActivity(
@@ -33,7 +34,9 @@ class TextRecognitionAdapter(private val context: Context, private val textRecog
             )
         }
 
-        holder.itemView.setOnLongClickListener{
+        //holder.itemView.item_text_recognition_text_view2.text.toString().split(" ")
+
+       holder.itemView.setOnLongClickListener{
             val mDialogView = LayoutInflater.from(context).inflate(R.layout.custom_edittext, null)
             val mBuilder = AlertDialog.Builder(context).setView(mDialogView).setTitle("Change Value")
             val  mAlertDialog = mBuilder.show()

@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/background">
 
     <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
         android:layout_width="match_parent"
@@ -20,12 +21,28 @@
         app:neomorph_background_color="@color/background"
         app:neomorph_shadow_color="@color/shadow_color"
         app:neomorph_highlight_color="@color/highlight">
-        <Button
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:fillViewport="true">
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/tagsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:alignItems="stretch"
+            app:alignContent="stretch"
+            tools:ignore="MissingConstraints" />
+        </ScrollView>
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:textAlignment="center"
-            android:text="@string/click_me"
-            android:background="@drawable/shape_rectangle"/>
+            android:id="@+id/textspan"
+            android:text=""
+            android:background="@drawable/shape_rectangle"
+            android:visibility="invisible"
+            android:autofillHints=""
+            tools:ignore="LabelFor,TextFields" />
 
     </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
 
@@ -34,7 +51,8 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/neo"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/image_from_out_of_app">
     </ImageView>
 
 </RelativeLayout>
