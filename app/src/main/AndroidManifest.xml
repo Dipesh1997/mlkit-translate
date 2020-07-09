@@ -12,33 +12,19 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main2Activity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-        <activity android:name=".Test2">
-
-            <!--
+        <activity android:name=".ViewActivity"></activity>
+        <activity android:name=".ActivityStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
-        <activity android:name=".Test">
-
-            <!--
-            <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
-
-                            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".SavedActivity" />
+        <activity android:name=".InsertActivity" />
+        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Test2"></activity>
+        <activity android:name=".Test"></activity>
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
@@ -68,13 +54,7 @@
 
             <!-- Added intent filter for handling incoming Texts, Single and Multiple Images - Ends here -->
         </activity>
-        <activity android:name=".TextRecognitionActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".TextRecognitionActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>
 

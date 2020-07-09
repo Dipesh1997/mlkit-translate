@@ -117,6 +117,25 @@ class MainActivity : AppCompatActivity() {
 
             val blockText = block.text
             Toast.makeText(this,blockText,Toast.LENGTH_SHORT).show()
+
+            val dataSaveHelper = DataSaveHelper(this)
+            imageView?.setOnClickListener {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder.setTitle("Confirm")
+                    .setMessage("Are you sure to save it?")
+                    .setCancelable(true)
+                    .setPositiveButton("No"){dialog,which->
+                    }
+                    .setNegativeButton("Yes"){dialog,which->
+                        val time = 12
+                        val name: String = blockText
+                        dataSaveHelper.addNotes(Notes(time,name))
+                    }
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
+
+            }
+
             textspan?.append(blockText +"\n")
             //editText.append(blockText + " ")
             //editText.append(blockText + "\n")

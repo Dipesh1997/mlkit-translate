@@ -34,4 +34,10 @@
     <string name="applicant_name">App</string>
     <string name="no_text_found">No Text Found</string>
     <string name="image_from_out_of_app">Image from out of app</string>
+    <string name="insert_student">INSERT STUDENT</string>
+    <string name="name">Naura Putri</string>
+    <string name="nim">1301143434</string>
+    <string name="fakultas">Fakultas Informatika</string>
+    <string name="scan_activity">Scan Activity</string>
+    <string name="saved_activity">Saved Activity</string>
 </resources>

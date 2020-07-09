@@ -2,6 +2,7 @@ package com.google.firebase.samples.apps.mlkit.translate
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -15,6 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
@@ -25,6 +27,7 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.android.synthetic.main.activity_insert.*
 import kotlinx.android.synthetic.main.activity_test2.*
 import kotlinx.android.synthetic.main.content_text_recognition.*
 
@@ -121,6 +124,25 @@ class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureLi
         textPaint.textSize = 40F
         var index = 0
         for (block in result.textBlocks) {
+
+            val dataSaveHelper = DataSaveHelper(this)
+            imageView.setOnClickListener {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder.setTitle("Confirm")
+                    .setMessage("Are you sure to save it?")
+                    .setCancelable(true)
+                    .setPositiveButton("No"){dialog,which->
+                    }
+                    .setNegativeButton("Yes"){dialog,which->
+                        val time = 12
+                        val name: String = block.text
+                        dataSaveHelper.addNotes(Notes(time,name))
+                    }
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
+
+            }
+
             for (line in block.lines) {
                 canvas.drawRect(line.boundingBox!!, rectPaint)
                 canvas.drawText(
@@ -141,7 +163,7 @@ class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureLi
                 bottomValue=bottom
 
                 //textRecognitionModels.add(TextRecognitionModel(index++, line.text))
-                imageView.setOnTouchListener { v, event ->
+                /*imageView.setOnTouchListener { v, event ->
                     val x1 = event.getX()
                     val y1 = event.getY()
 
@@ -152,7 +174,8 @@ class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureLi
                     }
 
                     !gestureDetectorCompat!!.onTouchEvent(event)
-                }
+                }*/
+
 
                 textRecognitionModels.add(TextRecognitionModel(index++, line.text))
             }
