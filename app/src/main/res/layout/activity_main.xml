@@ -34,6 +34,14 @@
             android:visibility="invisible"
             android:autofillHints=""
             tools:ignore="LabelFor,TextFields" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textOut"
+        android:visibility="gone"
+        android:text="@string/common_google_play_services_unsupported_text">
+
+    </TextView>
 
 
     <ImageView

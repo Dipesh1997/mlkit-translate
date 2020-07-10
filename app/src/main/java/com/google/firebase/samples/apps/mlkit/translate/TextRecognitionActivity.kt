@@ -16,7 +16,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
@@ -27,9 +26,11 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_insert.*
 import kotlinx.android.synthetic.main.activity_test2.*
 import kotlinx.android.synthetic.main.content_text_recognition.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnDragListener {
 
@@ -107,7 +108,7 @@ class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureLi
             }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SimpleDateFormat")
     private fun recognizeText(result: FirebaseVisionText?, image: Bitmap?) {
         if (result == null || image == null) {
             Toast.makeText(this, "There was some error", Toast.LENGTH_SHORT).show()
@@ -134,8 +135,11 @@ class TextRecognitionActivity : AppCompatActivity(), GestureDetector.OnGestureLi
                     .setPositiveButton("No"){dialog,which->
                     }
                     .setNegativeButton("Yes"){dialog,which->
-                        val time = 12
-                        val name: String = block.text
+
+                        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                        val currentDate = sdf.format(Date())
+                        val time = currentDate
+                        val name: String = result.text
                         dataSaveHelper.addNotes(Notes(time,name))
                     }
                 val alertDialog = alertDialogBuilder.create()

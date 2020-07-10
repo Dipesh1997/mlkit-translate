@@ -7,17 +7,6 @@
     android:orientation="vertical"
     tools:context=".SavedActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="4dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:text="Saved List"
-        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,6 +17,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:text="Long pressed to delete the note"
+        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -13,6 +13,9 @@
         android:textColorHighlight="#f00"
         android:textColorLink="#0f0"
         android:textSize="20sp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:textIsSelectable="true"
+        android:enabled="true"
+        android:focusable="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
