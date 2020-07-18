@@ -18,9 +18,5 @@ class ActivityStart : AppCompatActivity() {
             val intent = Intent(this, SavedActivity::class.java)
             startActivity(intent)
         }
-        testActivity.setOnClickListener {
-            val intent = Intent(this, test3::class.java)
-            startActivity(intent)
-        }
     }
 }
